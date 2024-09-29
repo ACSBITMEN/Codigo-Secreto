@@ -21,7 +21,7 @@
   --error-color: #ff5722;            /* Rojo */
   --timer-color: #4caf50;            /* Color inicial del temporizador */
 }
-
+ 
 body.light-mode {
   --bg-color-head: #8ab0ee; /* Fondo Head / barra de navegacion */
 
