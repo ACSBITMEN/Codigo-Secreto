@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>El Código Secreto / ACSB</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Código Secreto</h1>
+
+    <!-- Contador de tiempo -->
+    <div id="timer">Tiempo: 00:00</div>
+
+    <div class="input-container">
+        <input type="text" id="digit1" maxlength="1" autofocus>
+        <input type="text" id="digit2" maxlength="1">
+        <input type="text" id="digit3" maxlength="1">
+    </div>
+
+    <button id="guessButton">Intentar</button>
+    <button id="resetButton">Reiniciar</button>
+
+    <table id="tablaResultados">
+        <thead>
+            <tr>
+                <th rowspan="2"># Intento</th>
+                <th rowspan="2">Número Propuesto</th>
+                <th colspan="2">Dígitos Correctos</th>
+            </tr>
+            <tr>
+                <th>Posición Correcta</th>
+                <th>Posición Incorrecta</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <!-- Modal de Victoria -->
+    <div id="winModal" class="modal">
+        <div class="modal-content">
+            <p>¡Felicitaciones! Has adivinado el Código secreto.</p>
+            <button id="modalOkButton">OK</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

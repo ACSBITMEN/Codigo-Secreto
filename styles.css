@@ -1,0 +1,97 @@
+/* Estilos generales */
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.input-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+/* Estilos para el contador de tiempo */
+#timer {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+
+.input-container input {
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  text-align: center;
+  margin: 0 5px;
+}
+
+#guessButton, #resetButton {
+  padding: 10px 20px;
+  margin: 5px;
+}
+
+#tablaResultados {
+  max-width: 800px;
+  width: 100%;
+  margin: 20px auto;
+  border-collapse: collapse;
+}
+
+#tablaResultados th, #tablaResultados td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#tablaResultados tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#tablaResultados th {
+  background-color: #433878;
+  color: white;
+}
+
+#tablaResultados th[colspan="2"] {
+  background-color: #433878;
+}
+
+#tablaResultados th[rowspan="2"] {
+  vertical-align: middle;
+}
+
+/* Estilos de resaltado */
+.correct-position {
+  background-color: #94ff90;
+  font-weight: 600;
+}
+
+.wrong-position {
+  background-color: yellow;
+  color: black;
+  font-weight: 600;
+}
+
+/* Estilos del modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  width: 80%;
+  max-width: 300px;
+}
+
+#modalOkButton {
+  padding: 10px 20px;
+}
