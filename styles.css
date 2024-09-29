@@ -1,97 +1,237 @@
-/* Estilos generales */
+/* styles.css */
+
+/* Definición de variables para Light y Dark Mode */
+:root {
+  --bg-color-head: #131f33; /* Fondo Head / barra de navegacion */
+
+  --bg-color: #2c2c38; /* Fondo Principal */
+  --text-color: #ffffff; /* Textos en General */
+  --bordes-color-modal: #46db4b; /* Bordes Modal */
+  --secondary-color: #393e46;
+  --accent-color: #eeeeee;
+  --input-background: #222831;
+  --input-border: #00adb5;
+  --button-background: #00adb5;
+  --button-text: #ffffff;
+  --table-header-background: #00adb5;
+  --modal-background: rgba(0, 0, 0, 0.8);
+  --modal-content-background: #222831;
+  --correct-position-color: #4caf50; /* Verde */
+  --wrong-position-color: #ff9800;   /* Naranja */
+  --error-color: #ff5722;            /* Rojo */
+  --timer-color: #4caf50;            /* Color inicial del temporizador */
+}
+
+body.light-mode {
+  --bg-color-head: #8ab0ee; /* Fondo Head / barra de navegacion */
+
+  --bg-color: #f5f5f5; /* Fondo Principal */
+  --text-color: #1e1e2f; /* Textos en General */
+  --bordes-color-modal: #15b600;
+  --secondary-color: #ffffff;
+  --accent-color: #1e1e2f;
+  --input-background: #ffffff;
+  --input-border: #0077b6;
+  --button-background: #0077b6;
+  --button-text: #ffffff;
+  --table-header-background: #0077b6;
+  --modal-background: rgba(255, 255, 255, 0.8);
+  --modal-content-background: #ffffff;
+  --correct-position-color: #4caf50; /* Verde */
+  --wrong-position-color: #ff9800;   /* Naranja */
+  --error-color: #ff5722;            /* Rojo */
+  --timer-color: #4caf50;            /* Color inicial del temporizador en modo claro */
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Courier New', Courier, monospace;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 20px;
+  background-color: var(--bg-color-head);
+}
+
+#themeToggle {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+h1 {
   text-align: center;
+  margin-top: 20px;
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+}
+
+#timer {
+  background-color: var(--timer-color);
+  color: black;
+  max-width: 250px;
+  margin: 10px auto;
+  font-size: 1.5rem;
+  text-align: center;
+  transition: color 1s linear;
 }
 
 .input-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 10px;
+  gap: 10px;
+  margin: 20px 0;
 }
-
-/* Estilos para el contador de tiempo */
-#timer {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
 
 .input-container input {
-  width: 50px;
-  height: 50px;
-  font-size: 24px;
+  width: 60px;
+  height: 60px;
   text-align: center;
-  margin: 0 5px;
+  font-size: 2rem;
+  border: 2px solid var(--input-border);
+  border-radius: 8px;
+  background-color: var(--input-background);
+  color: var(--text-color);
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
-#guessButton, #resetButton {
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+button {
   padding: 10px 20px;
-  margin: 5px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--button-background);
+  color: var(--button-text);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  opacity: 0.8;
 }
 
 #tablaResultados {
-  max-width: 800px;
-  width: 100%;
-  margin: 20px auto;
+  width: 80%;
+  margin: 0 auto 40px auto;
   border-collapse: collapse;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
 #tablaResultados th, #tablaResultados td {
-  border: 1px solid #ddd;
-  padding: 8px;
+  padding: 12px 15px;
+  border: 1px solid var(--secondary-color);
+  text-align: center;
 }
 
-#tablaResultados tr:nth-child(even) {
-  background-color: #f2f2f2;
+#tablaResultados thead {
+  background-color: var(--table-header-background);
+  color: var(--accent-color);
 }
 
-#tablaResultados th {
-  background-color: #433878;
-  color: white;
+#tablaResultados tbody tr:nth-child(even) {
+  background-color: var(--secondary-color);
 }
 
-#tablaResultados th[colspan="2"] {
-  background-color: #433878;
+.digit-cell.correct-position {
+  background-color: var(--correct-position-color);
+  color: var(--accent-color);
+  border-radius: 4px;
 }
 
-#tablaResultados th[rowspan="2"] {
-  vertical-align: middle;
+.digit-cell.wrong-position {
+  background-color: var(--wrong-position-color);
+  color: var(--accent-color);
+  border-radius: 4px;
 }
 
-/* Estilos de resaltado */
-.correct-position {
-  background-color: #94ff90;
-  font-weight: 600;
-}
-
-.wrong-position {
-  background-color: yellow;
-  color: black;
-  font-weight: 600;
-}
-
-/* Estilos del modal */
 .modal {
-  display: none;
+  display: none; /* Oculto por defecto */
   position: fixed;
-  z-index: 1;
+  z-index: 1000;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0,0,0,0.4);
+  background-color: var(--modal-background);
+  transition: background-color 0.3s;
 }
 
 .modal-content {
-  background-color: #fefefe;
+  background-color: var(--modal-content-background);
   margin: 15% auto;
   padding: 20px;
+  border: 2px solid var(--bordes-color-modal);
   width: 80%;
-  max-width: 300px;
+  max-width: 400px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 #modalOkButton {
+  margin-top: 20px;
   padding: 10px 20px;
+  background-color: var(--button-background);
+  color: var(--button-text);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#modalOkButton:hover {
+  opacity: 0.8;
+}
+
+.visually-hidden { 
+  position: absolute; 
+  width: 1px; 
+  height: 1px; 
+  padding: 0; 
+  margin: -1px; 
+  overflow: hidden; 
+  clip: rect(0, 0, 0, 0); 
+  white-space: nowrap; 
+  border: 0; 
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .input-container {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .input-container input {
+      width: 50px;
+      height: 50px;
+      font-size: 1.5rem;
+  }
+
+  #tablaResultados {
+      width: 100%;
+  }
 }

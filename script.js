@@ -1,10 +1,13 @@
+// script.js
+
 // Variables globales
 let secretNumber;
 let attempts = 0;
 let gameWon = false;
+let gameLost = false;
 let timerInterval;
-let startTime;
-let timerStarted = false;
+let remainingTime = 180; // 3 minutos en segundos
+const totalTime = 180; // Tiempo total en segundos
 
 // Elementos del DOM
 const digitInputs = [
@@ -18,30 +21,43 @@ const attemptsTableBody = document.querySelector('#tablaResultados tbody');
 const winModal = document.getElementById('winModal');
 const modalOkButton = document.getElementById('modalOkButton');
 const timerDisplay = document.getElementById('timer');
+const themeToggle = document.getElementById('themeToggle');
 
 // Generar número secreto
 function generateSecretNumber() {
     secretNumber = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-    console.log('Número Secreto:', secretNumber);
+    // console.log('Número Secreto:', secretNumber); // Eliminar en producción
 }
 
 // Reiniciar el juego
 function resetGame() {
     attempts = 0;
     gameWon = false;
-    timerStarted = false;
+    gameLost = false;
+    remainingTime = totalTime;
     clearInterval(timerInterval);
-    timerDisplay.textContent = 'Tiempo: 00:00';
+    timerInterval = null; // Reiniciar timerInterval
+    timerDisplay.textContent = `Tiempo: ${formatTime(remainingTime)}`;
+    document.documentElement.style.setProperty('--timer-color', '#4caf50'); // Reset color a verde
     attemptsTableBody.innerHTML = '';
     generateSecretNumber();
-    digitInputs.forEach(input => input.value = '');
+    digitInputs.forEach(input => {
+        input.value = '';
+        input.disabled = false; // Habilitar inputs en caso de estar deshabilitados
+    });
+    guessButton.disabled = false; // Habilitar botón de intentar
     digitInputs[0].focus();
     hideModal();
 }
 
-// Mostrar modal
-function showModal() {
+// Mostrar modal con título y mensaje
+function showModal(title, message) {
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMessage = document.getElementById('modalMessage');
+    modalTitle.textContent = title;
+    modalMessage.textContent = message;
     winModal.style.display = 'block';
+    modalOkButton.focus();
 }
 
 // Ocultar modal
@@ -49,7 +65,7 @@ function hideModal() {
     winModal.style.display = 'none';
 }
 
-// Resaltar intentos después de ganar
+// Resaltar intentos después de ganar o perder
 function highlightAttempts() {
     const rows = attemptsTableBody.querySelectorAll('tr');
     rows.forEach(row => {
@@ -67,13 +83,47 @@ function highlightAttempts() {
     });
 }
 
+// Formatear tiempo en mm:ss
+function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+    const secs = (seconds % 60).toString().padStart(2, '0');
+    return `${mins}:${secs}`;
+}
+
 // Actualizar el contador de tiempo
 function updateTimer() {
-    const now = new Date();
-    const elapsedTime = Math.floor((now - startTime) / 1000); // en segundos
-    const minutes = Math.floor(elapsedTime / 60).toString().padStart(2, '0');
-    const seconds = (elapsedTime % 60).toString().padStart(2, '0');
-    timerDisplay.textContent = `Tiempo: ${minutes}:${seconds}`;
+    if (remainingTime > 0) {
+        remainingTime--;
+        timerDisplay.textContent = `Tiempo: ${formatTime(remainingTime)}`;
+
+        // Calcular color del temporizador basado en el tiempo restante
+        const percentage = remainingTime / totalTime;
+        const red = Math.floor(255 * (1 - percentage));
+        const green = Math.floor(255 * percentage);
+        const color = `rgb(${red}, ${green}, 0)`;
+        document.documentElement.style.setProperty('--timer-color', color);
+
+        if (remainingTime === 0) {
+            // Tiempo agotado
+            gameLost = true;
+            clearInterval(timerInterval);
+            endGame(false);
+        }
+    }
+}
+
+// Finalizar el juego, pasando true para victoria y false para derrota
+function endGame(victory) {
+    if (victory) {
+        gameWon = true;
+        showModal('¡Felicitaciones!', 'Has adivinado el Código secreto.');
+    } else {
+        gameLost = true;
+        showModal('¡Tiempo Agotado!', 'El tiempo para adivinar el Código secreto ha finalizado.');
+    }
+    // Deshabilitar entradas y botón de intentar
+    digitInputs.forEach(input => input.disabled = true);
+    guessButton.disabled = true;
 }
 
 // Mover el foco automáticamente
@@ -108,7 +158,7 @@ digitInputs.forEach((input, index) => {
 
 // Evento al hacer clic en "Intentar"
 guessButton.addEventListener('click', () => {
-    if (gameWon) return;
+    if (gameWon || gameLost) return;
 
     let guessDigits = digitInputs.map(input => input.value);
 
@@ -119,9 +169,7 @@ guessButton.addEventListener('click', () => {
     }
 
     // Iniciar el contador de tiempo en el primer intento
-    if (!timerStarted) {
-        timerStarted = true;
-        startTime = new Date();
+    if (!timerInterval) {
         timerInterval = setInterval(updateTimer, 1000);
     }
 
@@ -135,23 +183,23 @@ guessButton.addEventListener('click', () => {
     const guessDigitsCopy = guessDigits.slice();
     const secretDigitsCopy = secretDigits.slice();
 
-    // Comprobar dígitos en la posición correcta
+    // Comprobar dígitos en la posición correcta y marcarlos
     for (let i = 0; i < 3; i++) {
         if (guessDigits[i] === secretDigits[i]) {
             correctPosition++;
             secretDigitsCopy[i] = null;
-            guessDigitsCopy[i] = null;
         }
     }
 
     // Comprobar dígitos correctos en posición incorrecta
     for (let i = 0; i < 3; i++) {
-        if (guessDigitsCopy[i] !== null) {
-            let index = secretDigitsCopy.indexOf(guessDigitsCopy[i]);
-            if (index !== -1) {
-                correctDigit++;
-                secretDigitsCopy[index] = null;
-                guessDigitsCopy[i] = null;
+        if (guessDigits[i] !== secretDigits[i]) {
+            for (let j = 0; j < 3; j++) {
+                if (secretDigitsCopy[j] !== null && guessDigits[i] === secretDigits[j]) {
+                    correctDigit++;
+                    secretDigitsCopy[j] = null;
+                    break;
+                }
             }
         }
     }
@@ -177,21 +225,24 @@ guessButton.addEventListener('click', () => {
 
     const correctPositionCell = document.createElement('td');
     correctPositionCell.textContent = correctPosition;
-    correctPositionCell.classList.add('correct-position');
+    if (correctPosition !== 0) {
+        correctPositionCell.classList.add('correct-position');
+    }
     row.appendChild(correctPositionCell);
 
     const correctDigitCell = document.createElement('td');
     correctDigitCell.textContent = correctDigit;
-    correctDigitCell.classList.add('wrong-position');
+    if (correctDigit !== 0) {
+        correctDigitCell.classList.add('wrong-position');
+    }
     row.appendChild(correctDigitCell);
 
     attemptsTableBody.appendChild(row);
 
     // Comprobar condición de victoria
     if (correctPosition === 3) {
-        gameWon = true;
         clearInterval(timerInterval); // Detener el contador de tiempo
-        showModal();
+        endGame(true);
     }
 
     // Limpiar las entradas y enfocar el primer dígito
@@ -214,6 +265,40 @@ window.addEventListener('click', (event) => {
         hideModal();
         highlightAttempts();
     }
+});
+
+// Funcionalidad para alternar Dark/Light Mode
+function toggleTheme() {
+    document.body.classList.toggle('light-mode');
+    // Cambiar el icono del botón
+    if (document.body.classList.contains('light-mode')) {
+        themeToggle.textContent = '🌙'; // Icono de luna para modo Light
+    } else {
+        themeToggle.textContent = '🌓'; // Icono de luna creciente para modo Dark
+    }
+    // Guardar preferencia en localStorage
+    if (document.body.classList.contains('light-mode')) {
+        localStorage.setItem('theme', 'light');
+    } else {
+        localStorage.setItem('theme', 'dark');
+    }
+}
+
+// Evento al hacer clic en el botón de alternancia
+themeToggle.addEventListener('click', toggleTheme);
+
+// Cargar el tema preferido al iniciar
+window.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-mode');
+        themeToggle.textContent = '🌙';
+    } else {
+        document.body.classList.remove('light-mode');
+        themeToggle.textContent = '🌓';
+    }
+    // Inicializar el temporizador en resetGame
+    resetGame();
 });
 
 // Iniciar el juego
