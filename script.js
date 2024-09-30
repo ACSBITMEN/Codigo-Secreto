@@ -6,8 +6,8 @@ let attempts = 0;
 let gameWon = false;
 let gameLost = false;
 let timerInterval;
-let remainingTime = 180; // 3 minutos en segundos
-const totalTime = 180; // Tiempo total en segundos
+let remainingTime = 60; // 3 minutos en segundos
+const totalTime = 60; // Tiempo total en segundos
 
 // Elementos del DOM
 const digitInputs = [
@@ -38,7 +38,12 @@ function resetGame() {
     clearInterval(timerInterval);
     timerInterval = null; // Reiniciar timerInterval
     timerDisplay.textContent = `Tiempo: ${formatTime(remainingTime)}`;
-    document.documentElement.style.setProperty('--timer-color', '#4caf50'); // Reset color a verde
+
+    // Restablecer --timer-color al color inicial según el tema
+    const targetElement = document.body.classList.contains('light-mode') ? document.body : document.documentElement;
+    const initialTimerColor = document.body.classList.contains('light-mode') ? '#4caf50' : '#4caf50'; // Ambos modos inician en verde
+    targetElement.style.setProperty('--timer-color', initialTimerColor);
+
     attemptsTableBody.innerHTML = '';
     generateSecretNumber();
     digitInputs.forEach(input => {
@@ -98,10 +103,26 @@ function updateTimer() {
 
         // Calcular color del temporizador basado en el tiempo restante
         const percentage = remainingTime / totalTime;
-        const red = Math.floor(255 * (1 - percentage));
-        const green = Math.floor(255 * percentage);
-        const color = `rgb(${red}, ${green}, 0)`;
-        document.documentElement.style.setProperty('--timer-color', color);
+        let color;
+
+        if (percentage > 0.66) {
+            // Verde a Amarillo
+            const green = Math.floor(255 * percentage);
+            const red = Math.floor(255 * (1 - percentage));
+            color = `rgb(${red}, ${green}, 0)`;
+        } else if (percentage > 0.33) {
+            // Amarillo a Rojo
+            const red = 255;
+            const green = Math.floor(255 * (percentage - 0.33) / 0.33);
+            color = `rgb(${red}, ${green}, 0)`;
+        } else {
+            // Rojo
+            color = `rgb(255, 0, 0)`;
+        }
+
+        // Determinar el elemento correcto para actualizar la variable
+        const targetElement = document.body.classList.contains('light-mode') ? document.body : document.documentElement;
+        targetElement.style.setProperty('--timer-color', color);
 
         if (remainingTime === 0) {
             // Tiempo agotado
@@ -282,6 +303,10 @@ function toggleTheme() {
     } else {
         localStorage.setItem('theme', 'dark');
     }
+
+    // Al cambiar el tema, restablecer --timer-color al color inicial del nuevo tema
+    const targetElement = document.body.classList.contains('light-mode') ? document.body : document.documentElement;
+    const initialTimerColor = document.body.classList.contains('light-mode') ? '#4caf50' : '#4caf50'; // Ambos modos inician en verde
 }
 
 // Evento al hacer clic en el botón de alternancia
