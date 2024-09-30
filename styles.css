@@ -10,7 +10,7 @@
   --border-input-guess: #44ee3e; /* Bordes input Numeros .digit(n) */
   --table-header-background: #272731; /* Fondo Head Tabla */
   --bordes-color-table: #30c42b; /* Bordes Tabla */
-  --button-background: #494949; /* Fondo Boton "Intentar" */
+  --button-background: #6e6e6e; /* Fondo Boton "Intentar" */
   --button-text: #ffffff; /* Texto Boton "Intentar" */
   --correct-position-color: #4caf50; /* Verde */
   --wrong-position-color: #ff9800;   /* Naranja */
@@ -76,14 +76,14 @@ header {
 h1 {
   color: var(--text-color);
   text-align: center;
-  margin: 0px auto 3rem;
+  margin: 2rem auto 4rem;
   font-size: 2rem;
   letter-spacing: 2px;
-  font-family: 'DS-Doctor', sans-serif;
+  font-family: 'DS-Wonder', sans-serif;
 }
 @font-face {
-  font-family: 'DS-Doctor';
-  src: url('./fonts/doctor_glitch/Doctor\ Glitch.otf') format('truetype');
+  font-family: 'DS-Wonder';
+  src: url('./fonts/8bit_wonder/8-BIT\ WONDER.TTF') format('truetype');
 }
 
 #timer {
