@@ -19,7 +19,7 @@
   --modal-background: #000000cc; /* Fondo detras del Modal */
   --bordes-color-modal: #46db4b; /* Bordes Modal */
 }
- 
+
 body.light-mode {
   --bg-color-head: #8ab0ee; /* Fondo Head / barra de navegacion */
   --bg-color: #f2f2f2; /* Fondo Principal */
