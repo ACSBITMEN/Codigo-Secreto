@@ -10,7 +10,7 @@
   --border-input-guess: #44ee3e; /* Bordes input Numeros .digit(n) */
   --table-header-background: #272731; /* Fondo Head Tabla */
   --bordes-color-table: #30c42b; /* Bordes Tabla */
-  --button-background: #6e6e6e; /* Fondo Boton "Intentar" */
+  --button-background: #30c42b; /* Fondo Boton "Intentar" */
   --button-text: #ffffff; /* Texto Boton "Intentar" */
   --correct-position-color: #4caf50; /* Verde */
   --wrong-position-color: #ff9800;   /* Naranja */
@@ -26,10 +26,10 @@ body.light-mode {
   --text-color: #000; /* Textos en General */
   --timer-color: #95D2B3; /* Color inicial del temporizador en modo claro */
   --bg-input-guess: #ffffff; /* Fondo input Numeros .digit(n) */
-  --border-input-guess: #2461db; /* Bordes input Numeros .digit(n) */
-  --table-header-background: #4379F2;/* Fondo Head Tabla */
+  --border-input-guess: #636363; /* Bordes input Numeros .digit(n) */
+  --table-header-background: #2c2c2c;/* Fondo Head Tabla */
   --bordes-color-table: #c0c0c0; /* Bordes tabla */
-  --button-background: #2461db; /* Fondo Boton "Intentar" */
+  --button-background: #30c42b; /* Fondo Boton "Intentar" */
   --button-text: #ffffff; /* Texto Boton "Intentar" */
   --correct-position-color: #4caf50; /* Verde */
   --wrong-position-color: #ff9800;   /* Naranja */
@@ -57,9 +57,34 @@ body {
 header {
   height: 3rem;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-around;
   align-items: center;
   padding: 10px 20px;
+}
+
+header a {
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  font-size: .6em;
+  font-family: 'DS-Wonder', sans-serif;
+  text-decoration: none;
+}
+
+header a:hover {
+  color: var(--border-input-guess);
+}
+
+header a img {
+  width: 25px;
+  margin: 6px;
+  background-color: gray;
+  border-radius: 15px;
+  padding: 2px;
+}
+
+header a:hover img {
+  background-color: var(--border-input-guess);
 }
 
 #themeToggle {
@@ -71,6 +96,9 @@ header {
   cursor: pointer;
   transition: color 0.3s;
   padding: 0;
+}
+#themeToggle:hover {
+  scale: 1.05;
 }
 
 h1 {
@@ -86,18 +114,51 @@ h1 {
   src: url('./fonts/8bit_wonder/8-BIT\ WONDER.TTF') format('truetype');
 }
 
+.container {
+  display: flex;
+  height: 5rem;
+  justify-content: center;
+  align-items: center;
+}
+
 #timer {
   background-color: var(--timer-color);
   color: black;
-  max-width: 250px;
-  padding: 10px 10px;
-  margin: 10px auto;
+  max-width: 260px;
+  padding: 10px 15px 10px 15px;
+  margin: 10px 10px;
   font-size: 1.5rem;
   font-weight: 600;
   text-align: center;
   transition: background-color .5s linear;
   border: 2px solid rgb(51, 51, 51);
   border-radius: 15px;
+  -webkit-box-shadow: inset 2px 3px 2px 1px rgba(0,0,0,0.15);
+  -moz-box-shadow: inset 2px 3px 2px 1px rgba(0,0,0,0.15);
+  box-shadow: inset 2px 3px 2px 1px rgba(0,0,0,0.15);
+  border-radius: 15px 0px 0px 15px;
+}
+
+.resetButton {
+  background-color: #e22929de;
+  color: #580606;
+  font-weight: 600;
+  width: 100px;
+  height: 3.2rem;
+  padding: 5px 5px;
+  font-size: .9rem;
+  border: 2px solid black;
+  -webkit-box-shadow: 0px 0px 7px 3px rgba(0,0,0,0.09);
+  -moz-box-shadow: 0px 0px 7px 3px rgba(0,0,0,0.09);
+  box-shadow: 0px 0px 7px 3px rgba(0,0,0,0.09);
+  border-radius: 0px 15px 15px 0px;
+}
+
+.resetButton:hover {
+  background-color: #e22929bd;
+  color: #2b0404;
+  scale: 1.03;
+  
 }
 
 .info {
@@ -123,7 +184,8 @@ h1 {
   border-radius: 8px;
   background-color: var(--bg-input-guess);
   color: var(--text-color);
-  transition: background-color 0.3s, border-color 0.3s;
+  transition: background-color 0.3s, border-color 0.3s;  
+  font-family: 'DS-Wonder', sans-serif;
 }
 
 .button-container {
@@ -131,32 +193,35 @@ h1 {
   flex-direction: column;
   justify-content: center;
   gap: 10px;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   align-items: center;
 }
 
 button {
   background-color: var(--button-background);
-  color: var(--button-text);
   width: 250px;
   padding: 15px 20px;
   margin: 0;
-  font-size: 1.2rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s;
+  border: 2px solid #12740f;
 }
 
-.button-container button:nth-child(2) {
-  background-color: #e22929bd;
-  width: 220px;
-  padding: 10px 20px;
-  font-size: 1rem;
+.guessButton {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #042403;
+  -webkit-box-shadow: 0px 0px 13px 6px rgba(0,0,0,0.09);
+  -moz-box-shadow: 0px 0px 13px 6px rgba(0,0,0,0.09);
+  box-shadow: 0px 0px 13px 6px rgba(0,0,0,0.09);
 }
 
-button:hover {
-  opacity: 0.8;
+.guessButton:hover {
+  background-color: #4ed849;
+  border: 2px solid black;
+  scale: 1.01;
 }
 
 #tablaResultados {
@@ -177,9 +242,16 @@ button:hover {
   font-weight: 600;
 }
 
+#tablaResultados tr td:nth-last-child(2) {
+  background-color: hsla(125, 100%, 67%, 0.3);
+}
+#tablaResultados tr td:nth-last-child(1) {
+  background-color: hsla(54, 100%, 50%, 0.3);
+}
+
 #tablaResultados thead {
   background-color: var(--table-header-background);
-  color: var(--text-color);
+  color: #f2f2f2;
 }
 
 #tablaResultados tbody tr:nth-child(even) {
@@ -225,6 +297,10 @@ button:hover {
   transition: background-color 0.3s, color 0.3s;
 }
 
+#modalTitle {
+  margin-bottom: 1rem;
+}
+
 #modalOkButton {
   margin-top: 20px;
   padding: 10px 20px;
@@ -239,6 +315,56 @@ button:hover {
 #modalOkButton:hover {
   opacity: 0.8;
 }
+
+/* Tema Oscuro - Victoria */
+body:not(.light-mode) .modal-win .modal-content {
+  background-color: #2e7d32; /* Verde oscuro */
+  border-color: #1b5e20;
+  color: #ffffff;
+}
+
+body:not(.light-mode) .modal-win #modalOkButton {
+  background-color: #66bb6a;
+  color: #ffffff;
+}
+
+/* Tema Oscuro - Derrota */
+body:not(.light-mode) .modal-lose .modal-content {
+  background-color: #c62828; /* Rojo oscuro */
+  border-color: #b71c1c;
+  color: #ffffff;
+}
+
+body:not(.light-mode) .modal-lose #modalOkButton {
+  background-color: #ef5350;
+  color: #ffffff;
+}
+
+/* Tema Claro - Victoria */
+body.light-mode .modal-win .modal-content {
+  background-color: #a5d6a7; /* Verde claro */
+  border-color: #66bb6a;
+  color: #000000;
+}
+
+body.light-mode .modal-win #modalOkButton {
+  background-color: #81c784;
+  color: #000000;
+}
+
+/* Tema Claro - Derrota */
+body.light-mode .modal-lose .modal-content {
+  background-color: #ef9a9a; /* Rojo claro */
+  border-color: #e57373;
+  color: #000000;
+}
+
+body.light-mode .modal-lose #modalOkButton {
+  background-color: #e57373;
+  color: #000000;
+}
+
+
 
 .visually-hidden { 
   position: absolute; 

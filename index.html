@@ -8,16 +8,23 @@
 <body>
     <!-- Botón de Dark/Light Mode -->
     <header>
+        <a href="https://andressuarez.com.co/" target="_blank">
+            <img src="img/logo-acsb.png" alt="">
+            <p>andressuarez.com.co</p>
+        </a>
         <button id="themeToggle" aria-label="Alternar Modo Oscuro/Claro">
             🌓
         </button>
     </header>
- 
+
     <main>
         <h1>Codigo Secreto</h1>
 
         <!-- Contador de tiempo -->
-        <div id="timer">Tiempo: 01:00</div>
+        <div class="container">
+            <div id="timer">Tiempo: 01:00</div>
+            <button id="resetButton" class="resetButton">Reiniciar</button>
+        </div>
         <div class="info">Ingresa el Código Secreto</div>
         <div class="input-container">
             <label for="digit1" class="visually-hidden">Dígito 1</label>
@@ -29,30 +36,30 @@
         </div>
 
         <div class="button-container">
-            <button id="guessButton">Intentar</button>
-            <button id="resetButton">Reiniciar</button>
+            <button id="guessButton" class="guessButton">Validar Código</button>
         </div>
 
         <table id="tablaResultados">
-          <colgroup>
-            <col class="col-attempt-number">
-            <col class="col-proposed-number">
-            <col class="col-correct-position">
-            <col class="col-wrong-position">
-          </colgroup>
-          <thead>
-              <tr>
-                <th rowspan="2"># Intento</th>
-                <th rowspan="2">Número Propuesto</th>
-                  <th colspan="2">Dígitos Correctos</th>
-              </tr>
-              <tr>
-                <th>Posición Correcta</th>
-                <th>Posición Incorrecta</th>
-              </tr>
-          </thead>
-          <tbody>
-          </tbody>
+            <colgroup>
+                <col class="col-attempt-number">
+                <col class="col-proposed-number">
+                <col class="col-correct-position">
+                <col class="col-wrong-position">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th rowspan="2"># Intento</th>
+                    <th rowspan="2">Número Propuesto</th>
+                    <th colspan="2">Dígitos Correctos</th>
+                </tr>
+                <tr>
+                    <th>Posición Correcta</th>
+                    <th>Posición Incorrecta</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Datos de la tabla -->
+            </tbody>
         </table>
 
         <!-- Modal de Victoria / Derrota -->
